@@ -15,11 +15,11 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-  core.respond(msg);
+  core.respond(client, msg, core);
 });
 
 client.on('guildCreate', guild => {
-  core.guild(client, guild.id);
+  core.createGuild(client, guild.id);
 });
 
 client.login(env.TOKEN);
