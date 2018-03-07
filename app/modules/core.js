@@ -3,26 +3,35 @@ require('dotenv').config({path: '.env'});
 const commands = require('./commands.js'),
       env      = process.env;
 
-module.exports = {
+let self = module.exports = {
   init: (client) => {
-    // client.user.setPresence({game: {name: `in ${env.LOC}`, type: 0}});
-
     console.log('howdy pardner');
   },
-  respond: (client, msg) => {
-    // let prefix = config[msg.guild.id].prefix;
+  respond: (client, msg, core) => {
+    let prefix = client.config.get(msg.guild.id).prefix;
 
-    // if (msg.content.startsWith(prefix)) {
-    //   args = msg.content.slice(prefix.length).split(' ');
+    if (msg.content.startsWith(prefix)) {
+      let args = msg.content.slice(prefix.length).split(' '),
+          cmd  = args[0].toLowerCase();
 
-    //   if (args[0].toLowerCase() in commands) {
-    //     commands[cmd].execute(client, msg, args);
-    //   }
-    // }
+      if (cmd in commands) {
+        commands[cmd].execute(client, msg, args, core);
+      }
+    }
   },
-  guild: (client, id) => {
+  createGuild: (client, id) => {
     client.config.set(id, {
       prefix: "!"
     });
+  },
+  getOutlaw: (client, id) => {
+    return client.outlaws.get(id) || self.createOutlaw(client, id);
+  },
+  createOutlaw: (client, id) => {
+    let outlaw = { id: id, rank: 0, wins: 0, losses: 0, shots: 0, hits: 0, misses: 0 }
+
+    client.config.set(id, outlaw);
+
+    return outlaw;
   }
 }
