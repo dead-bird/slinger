@@ -9,7 +9,7 @@ const Discord       = require('discord.js'),
       
 client.on('ready', () => {
   client.config = new Enmap({provider: new EnmapLevel({name: 'config'})});
-  client.users  = new Enmap({provider: new EnmapLevel({name: 'users'})});
+  client.outlaws  = new Enmap({provider: new EnmapLevel({name: 'outlaws'})});
 
   core.init(client);
 });
