@@ -6,3 +6,4 @@ The quickest gun in the west
 *run npm i
 *duplicate .env.example as .env and add the server token
 *run `nodemon` from the project root
+
