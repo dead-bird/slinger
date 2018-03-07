@@ -5,7 +5,7 @@ const commands = require('./commands.js'),
 
 module.exports = {
   init: (client) => {
-    client.user.setPresence({game: {name: `in ${env.LOC}`, type: 0}});
+    // client.user.setPresence({game: {name: `in ${env.LOC}`, type: 0}});
 
     console.log('howdy pardner');
   },
