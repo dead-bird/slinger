@@ -1,0 +1,41 @@
+{
+  "name": "slinger",
+  "version": "0.0.1",
+  "description": "a Discord bot that does some things",
+  "homepage": "https://github.com/dead-bird/jarfis",
+  "contributors": [
+    {
+      "name": "Dave Phillips",
+      "email": "phillips.dave@hotmail.co.uk",
+      "url": "https://github.com/bringmethedeathstar"
+    },
+    {
+      "name": "Toby Gray",
+      "email": "tobyjgray96@gmail.com",
+      "url": "https://github.com/TobyJGray"
+    },
+    {
+      "name": "Dylan Tarry",
+      "email": "",
+      "url": "https://github.com/Dylan-Tarry"
+    }
+  ],
+  "files": [
+    "app"
+  ],
+  "main": "app/slinger.js",
+  "keywords": [
+    ""
+  ],
+  "devDependencies": {
+    "nodemon": "^1.12.1"
+  },
+  "repository": "https://github.com/dead-bird/slinger.git",
+  "license": "unlicense",
+  "dependencies": {
+    "discord.js": "^11.1.0",
+    "dotenv": "^4.0.0",
+    "enmap": "^0.6.1",
+    "enmap-level": "^1.0.1"
+  }
+}
