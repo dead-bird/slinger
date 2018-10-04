@@ -2,7 +2,7 @@
   "name": "slinger",
   "version": "0.0.1",
   "description": "a Discord bot that does some things",
-  "homepage": "https://github.com/dead-bird/jarfis",
+  "homepage": "https://github.com/dead-bird/slinger",
   "contributors": [
     {
       "name": "Dave Phillips",
@@ -38,5 +38,8 @@
     "dotenv": "^4.0.0",
     "enmap": "^0.6.1",
     "enmap-level": "^1.0.1"
+  },
+  "scripts": {
+    "bot": "nodemon ./app/slinger.js"
   }
 }
