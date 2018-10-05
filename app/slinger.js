@@ -1,12 +1,14 @@
 require('dotenv').config({ path: '.env' });
 
 const { Client } = require('discord.js');
-const EnmapLevel = require('enmap-level');
+const Level = require('enmap-level');
 const pkg = require('../package.json');
 const Clapp = require('clapp');
+const Enmap = require('enmap');
 const env = process.env;
 const bot = new Client();
 const fs = require('fs');
+
 // core = require('./modules/core.js'),
 // Enmap = require('enmap'),
 
@@ -27,14 +29,15 @@ fs.readdirSync('./app/commands/').forEach(file => {
 
 bot.on('message', msg => {
   if (app.isCliSentence(msg.content)) {
-    app.parseInput(msg.content, { msg });
+    app.parseInput(msg.content, { msg, bot });
   }
 });
 
 bot.on('ready', () => {
+  bot.config = new Enmap({ provider: new Level({ name: 'config' }) });
+  bot.outlaws = new Enmap({ provider: new Level({ name: 'outlaws' }) });
+
   console.log('howdy');
-  // client.config = new Enmap({provider: new EnmapLevel({name: 'config'})});
-  // client.outlaws  = new Enmap({provider: new EnmapLevel({name: 'outlaws'})});
   // bot.user.setActivity('💯', { type: 'Playing' });
 });
 
