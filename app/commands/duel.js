@@ -5,19 +5,20 @@ module.exports = new Command({
   desc: ':gun: a witty desc about dueling',
   fn: (argv, context) =>
     new Promise((resolve, reject) => {
+      console.log(context);
+
       resolve('test');
     }),
   args: [
     {
       name: '@user',
-      desc: 'Tag the user to fight',
+      desc: 'Tag the user to duel',
       type: 'string',
       required: true,
-      // default: '',
       // validations: [
       //   {
-      //     errorMessage: 'Too many characters!',
-      //     validate: t => t.split('').length <= 14,
+      //     errorMessage: 'invalid user',
+      //     validate: tag => /<@!(\d*)>|<@(\d*)>/g.test(tag),
       //   },
       // ],
     },
