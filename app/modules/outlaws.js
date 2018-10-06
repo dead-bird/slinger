@@ -8,11 +8,7 @@ const blank = {
 };
 
 const self = (module.exports = {
-  get(bot, id) {
-    console.log('get', id);
-
-    return bot.outlaws.get(id) || self.set(bot, id);
-  },
+  get: (bot, id) => bot.outlaws.get(id) || self.set(bot, id),
 
   set(bot, user) {
     if (typeof user === 'string') {
