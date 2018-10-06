@@ -1,4 +1,9 @@
+// todo: set up Babel
+
 module.exports = {
-  // Grab ID from <!id> or <id>
-  getId: id => id.replace(/<@!(\d*)>|<@(\d*)>/g, '$1'),
+  // User Helper Functions
+  user: {
+    // Grab ID from <!id> or <id>
+    id: id => id.replace(/<@!(\d*)>|<@(\d*)>/g, '$1'),
+  },
 };
