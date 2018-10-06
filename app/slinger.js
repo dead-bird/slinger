@@ -3,13 +3,13 @@ require('dotenv').config({ path: '.env' });
 const { Client } = require('discord.js');
 const pkg = require('../package.json');
 const Level = require('enmap-level');
-const Clapp = require('clapp');
+const { App } = require('clapp');
 const Enmap = require('enmap');
 const fs = require('fs');
 const bot = new Client();
 const env = process.env;
 
-const app = new Clapp.App({
+const app = new App({
   name: 'Slinger',
   desc: pkg.description,
   prefix: 'slinger',
