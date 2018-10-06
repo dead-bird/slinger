@@ -5,17 +5,17 @@ const { Command } = require('clapp');
 module.exports = new Command({
   name: 'duel',
   desc: ':gun: a witty desc about dueling',
-  fn: (argv, context) =>
+  fn: (argv, { msg, bot }) =>
     new Promise((resolve, reject) => {
-      let challenger = core.getId(context.msg.author.id);
-      let offender = core.getId(argv.args.user);
+      let p1 = core.user.id(msg.author.id);
+      let p2 = core.user.id(argv.args.user);
 
-      if (challenger === offender) resolve("you can't fight yourself");
+      if (p1 === p2) resolve("you can't fight yourself");
 
-      challenger = outlaws.get(context.bot, challenger);
-      offender = outlaws.get(context.bot, offender);
+      p1 = outlaws.get(bot, p1);
+      p2 = outlaws.get(bot, p2);
 
-      // resolve('test');
+      resolve('test');
     }),
   args: [
     {
