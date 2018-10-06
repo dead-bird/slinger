@@ -10,6 +10,10 @@ module.exports = new Command({
       let p1 = core.user.id(msg.author.id);
       let p2 = core.user.id(argv.args.user);
 
+      if (core.user.status(msg.guild, p2) !== 'online') {
+        resolve(`${argv.args.user} is offline`);
+      }
+
       if (p1 === p2) resolve("you can't fight yourself");
 
       p1 = outlaws.get(bot, p1);
