@@ -7,13 +7,15 @@ module.exports = new Command({
   desc: ':gun: a witty desc about dueling',
   fn: (argv, context) =>
     new Promise((resolve, reject) => {
-      const challenger = outlaws.get(
-        context.bot,
-        core.getId(context.msg.author.id)
-      );
-      const offender = outlaws.get(context.bot, core.getId(argv.args.user));
+      let challenger = core.getId(context.msg.author.id);
+      let offender = core.getId(argv.args.user);
 
-      resolve('test');
+      if (challenger === offender) resolve("you can't fight yourself");
+
+      challenger = outlaws.get(context.bot, challenger);
+      offender = outlaws.get(context.bot, offender);
+
+      // resolve('test');
     }),
   args: [
     {
