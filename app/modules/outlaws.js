@@ -7,16 +7,21 @@ const blank = {
   misses: 0,
 };
 
-export default {
+const self = (module.exports = {
   get(bot, id) {
-    return {};
+    console.log('get', id);
+
+    return bot.outlaws.get(id) || self.set(bot, id);
   },
-  
+
   set(bot, user) {
     if (typeof user === 'string') {
-      user = { user: .id, ...blank };
+      user = { id: user, ...blank };
     }
+
+    console.log('set', user);
+
     // save
     return {};
-  }
-},
+  },
+});
