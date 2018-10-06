@@ -1,16 +1,13 @@
 require('dotenv').config({ path: '.env' });
 
 const { Client } = require('discord.js');
-const Level = require('enmap-level');
 const pkg = require('../package.json');
+const Level = require('enmap-level');
 const Clapp = require('clapp');
 const Enmap = require('enmap');
-const env = process.env;
-const bot = new Client();
 const fs = require('fs');
-
-// core = require('./modules/core.js'),
-// Enmap = require('enmap'),
+const bot = new Client();
+const env = process.env;
 
 const app = new Clapp.App({
   name: 'Slinger',
@@ -19,7 +16,7 @@ const app = new Clapp.App({
   separator: ' ',
   version: pkg.version,
   onReply(msg, context) {
-    return context.msg.reply('\n' + 'howdy');
+    return context.msg.reply('\n' + msg);
   },
 });
 
@@ -50,15 +47,5 @@ bot.on('ready', () => {
 //     prefix: "!"
 //   });
 // },
-// getOutlaw: (client, id) => {
-//   return client.outlaws.get(id) || self.createOutlaw(client, id);
-// },
-// createOutlaw: (client, id) => {
-//   let outlaw = { id: id, rank: 0, wins: 0, losses: 0, shots: 0, hits: 0, misses: 0 }
-
-//   client.config.set(id, outlaw);
-
-//   return outlaw;
-// }
 
 bot.login(env.TOKEN).catch(console.error);
