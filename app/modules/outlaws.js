@@ -3,8 +3,8 @@ const blank = {
   wins: 0,
   losses: 0,
   shots: 0,
-  hits: 0,
-  misses: 0,
+  kills: 0,
+  deaths: 0,
 };
 
 const self = (module.exports = {
@@ -15,9 +15,9 @@ const self = (module.exports = {
       user = { id: user, ...blank };
     }
 
-    console.log('set', user);
+    // console.log('set', user);
 
     // save
-    return {};
+    return user;
   },
 });

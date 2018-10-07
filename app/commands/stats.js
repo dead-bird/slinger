@@ -1,30 +1,49 @@
+const outlaws = require('../modules/outlaws');
+const { RichEmbed } = require('discord.js');
+const core = require('../modules/core');
 const { Command } = require('clapp');
+
+const icons = {
+  rank: ':muscle:',
+  wins: ':cowboy:',
+  losses: ':face_palm:',
+  shots: ':gun:',
+  kills: ':dart:',
+  deaths: ':ghost:',
+};
 
 module.exports = new Command({
   name: 'stats',
   desc: ':muscle: Flex your stats',
   fn: (argv, context) =>
     new Promise((resolve, reject) => {
-      // // K/D needs thinking about
-      // let user = core.getOutlaw(client, msg.author.id);
-      // let embed = new Discord.RichEmbed()
-      //   .setColor(3447003)
-      //   .setDescription(`stats for <@${msg.author.id}>`)
-      //   .setThumbnail(client.user.avatarURL)
-      //   .addBlankField(true);
+      const id = core.user.id(argv.args.user || context.msg.author.id);
+      const user = outlaws.get(context.bot, id);
 
-      // for (stat in user) {
-      //   if (stat !== 'id') {
-      //     embed.addField('\u200B', `**${stat}:** ${user[stat]}`);
-      //   }
-      // }
+      // K/D needs thinking about
+      const embed = new RichEmbed()
+        .setColor(3447003)
+        .setDescription(`stats for <@${user.id}>`)
+        .setThumbnail(context.bot.user.avatarURL)
+        .addBlankField(true);
 
-      // resolve({ embed });
-      resolve('test');
+      // console.log(user);
+      // console.log(Object.keys(user));
+
+      Object.keys(user).forEach(stat => {
+        if (stat === 'id') return;
+
+        embed.addField('\u200B', `**${icons[stat]} ${stat}:** ${user[stat]}`);
+      });
+
+      resolve({
+        message: '',
+        context: { embed, ...context },
+      });
     }),
   args: [
     {
-      name: '@user',
+      name: 'user',
       desc: 'Optional: Tag a user to see their stats',
       type: 'string',
       required: false,

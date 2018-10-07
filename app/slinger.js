@@ -16,7 +16,11 @@ const app = new App({
   separator: ' ',
   version: pkg.version,
   onReply(msg, context) {
-    return context.msg.reply('\n' + msg);
+    if (context.embed) {
+      return context.msg.channel.send({ embed: context.embed });
+    }
+
+    return context.msg.channel.send(msg);
   },
 });
 
