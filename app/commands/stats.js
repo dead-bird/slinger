@@ -17,29 +17,43 @@ module.exports = new Command({
   desc: ':muscle: Flex your stats',
   fn: (argv, context) =>
     new Promise((resolve, reject) => {
-      const id = core.user.id(argv.args.user || context.msg.author.id);
-      const user = outlaws.get(context.bot, id);
+      const userId = core.user.id(argv.args.user);
+
+      const user = userId
+        ? context.msg.guild.members.get(userId)
+        : context.msg.author;
+
+      const outlaw = outlaws.get(context.bot, user.id);
+
+      console.log(user.avatar);
 
       // K/D needs thinking about
-      const embed = new RichEmbed()
-        .setColor(3447003)
-        .setDescription(`stats for <@${user.id}>`)
-        .setThumbnail(context.bot.user.avatarURL)
-        .addBlankField(true);
+      // const embed = new RichEmbed()
+      //   .setColor(3447003)
+      //   .setDescription(`stats for <@${outlaw.id}>`)
+      //   // .setThumbnail(context.bot.user.avatarURL)
+      //   .setAuthor(name, icon, null);
+      // // .addBlankField(true);
 
-      // console.log(user);
-      // console.log(Object.keys(user));
+      // // console.log(user);
+      // // console.log(Object.keys(user));
 
-      Object.keys(user).forEach(stat => {
-        if (stat === 'id') return;
+      // Object.keys(outlaw).forEach(stat => {
+      //   if (stat === 'id') return;
 
-        embed.addField('\u200B', `**${icons[stat]} ${stat}:** ${user[stat]}`);
-      });
+      //   embed.addField(
+      //     '\u200B',
+      //     `**${icons[stat]} ${stat}:** ${outlaw[stat]}`,
+      //     true
+      //   );
+      // });
 
-      resolve({
-        message: '',
-        context: { embed, ...context },
-      });
+      // // console.log(embed);
+
+      // resolve({
+      //   message: '',
+      //   context: { embed, ...context },
+      // });
     }),
   args: [
     {
