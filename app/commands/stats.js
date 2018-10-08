@@ -20,40 +20,25 @@ module.exports = new Command({
       const userId = core.user.id(argv.args.user);
 
       const user = userId
-        ? context.msg.guild.members.get(userId)
+        ? context.msg.guild.members.get(userId).user
         : context.msg.author;
 
       const outlaw = outlaws.get(context.bot, user.id);
 
-      console.log(user.avatar);
+      const embed = new RichEmbed()
+        .setColor(`#AB${user.discriminator}`)
+        .setAuthor(user.username, core.user.avatar(user), null);
 
-      // K/D needs thinking about
-      // const embed = new RichEmbed()
-      //   .setColor(3447003)
-      //   .setDescription(`stats for <@${outlaw.id}>`)
-      //   // .setThumbnail(context.bot.user.avatarURL)
-      //   .setAuthor(name, icon, null);
-      // // .addBlankField(true);
+      Object.keys(outlaw).forEach(stat => {
+        if (stat === 'id') return;
 
-      // // console.log(user);
-      // // console.log(Object.keys(user));
+        embed.addField('\u200B', `**${icons[stat]} ${stat}:** ${outlaw[stat]}`, true);
+      });
 
-      // Object.keys(outlaw).forEach(stat => {
-      //   if (stat === 'id') return;
-
-      //   embed.addField(
-      //     '\u200B',
-      //     `**${icons[stat]} ${stat}:** ${outlaw[stat]}`,
-      //     true
-      //   );
-      // });
-
-      // // console.log(embed);
-
-      // resolve({
-      //   message: '',
-      //   context: { embed, ...context },
-      // });
+      resolve({
+        message: '',
+        context: { embed, ...context },
+      });
     }),
   args: [
     {
