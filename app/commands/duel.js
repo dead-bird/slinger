@@ -19,6 +19,9 @@ module.exports = new Command({
       p1 = outlaws.get(bot, p1);
       p2 = outlaws.get(bot, p2);
 
+      // collector?
+      // https://stackoverflow.com/questions/45856446/discord-js-reply-to-message-then-wait-for-reply?rq=1
+
       resolve('test');
     }),
   args: [
