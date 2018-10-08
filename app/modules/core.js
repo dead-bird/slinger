@@ -8,5 +8,7 @@ module.exports = {
 
     // Get User from ID and return status
     status: (guild, id) => guild.members.get(id).user.presence.status,
+
+    avatar: u => `https://discordapp.com/api/users/${u.id}/avatars/${u.avatar}.jpg`,
   },
 };
