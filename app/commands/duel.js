@@ -14,13 +14,24 @@ module.exports = new Command({
         resolve(`${argv.args.user} is offline`);
       }
 
-      if (p1 === p2) resolve("you can't fight yourself");
+      // if (p1 === p2) resolve("you can't fight yourself");
 
       p1 = outlaws.get(bot, p1);
       p2 = outlaws.get(bot, p2);
 
-      // collector?
-      // https://stackoverflow.com/questions/45856446/discord-js-reply-to-message-then-wait-for-reply?rq=1
+      // msg.channel
+      //   .awaitMessages(
+      //     m => {
+      //       console.log(m.content);
+
+      //       return m.content === 'accept';
+      //     },
+      //     {
+      //       time: 1000,
+      //     }
+      //   )
+      //   .then(collected => console.log(collected))
+      //   .catch(collected => resolve("player 2 didn't accept the fight"));
 
       resolve('test');
     }),
