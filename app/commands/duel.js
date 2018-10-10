@@ -19,21 +19,17 @@ module.exports = new Command({
       p1 = outlaws.get(bot, p1);
       p2 = outlaws.get(bot, p2);
 
-      // msg.channel
-      //   .awaitMessages(
-      //     m => {
-      //       console.log(m.content);
-
-      //       return m.content === 'accept';
-      //     },
-      //     {
-      //       time: 1000,
-      //     }
-      //   )
-      //   .then(collected => console.log(collected))
-      //   .catch(collected => resolve("player 2 didn't accept the fight"));
-
-      resolve('test');
+      msg.channel
+        .send(
+          `<@${p2.id}>. ${
+            msg.author.username
+          } challenged you to a duel! Type \`accept\` to begin.`
+        )
+        .then(() => {
+          waitForAccept(msg, p1, p2);
+          resolve(false);
+        })
+        .catch(console.error);
     }),
   args: [
     {
@@ -41,12 +37,17 @@ module.exports = new Command({
       desc: 'Tag the user to duel',
       type: 'string',
       required: true,
-      // validations: [
-      //   {
-      //     errorMessage: 'invalid user',
-      //     validate: tag => /<@!(\d*)>|<@(\d*)>/g.test(tag),
-      //   },
-      // ],
     },
   ],
 });
+
+function waitForAccept(msg, p1, p2) {
+  msg.channel
+    .awaitMessages(m => m.content === 'accept' && m.author.id === p2.id, {
+      max: 1,
+      time: 10000,
+      errors: ['time'],
+    })
+    .then(() => msg.channel.send('player 2 accepted the duel.'))
+    .catch(() => resolve("player 2 didn't accept the fight"));
+}
