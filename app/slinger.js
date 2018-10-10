@@ -17,10 +17,11 @@ const app = new App({
   version: pkg.version,
   onReply(msg, context) {
     if (context.embed) {
-      return context.msg.channel.send({ embed: context.embed });
+      // I'm a big mongo this can just be handled in the function with `content.msg.send({ embed })`
+      return context.msg.channel.send({ embed: context.embed }).catch(console.error);
     }
 
-    return context.msg.channel.send(msg);
+    return context.msg.channel.send(msg).catch(console.error);
   },
 });
 
