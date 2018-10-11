@@ -17,7 +17,7 @@ const app = new App({
   version: pkg.version,
   onReply(msg, context) {
     if (context.embed) {
-      // I'm a big mongo this can just be handled in the function with `content.msg.send({ embed })`
+      // I'm a mongo this can just be handled in the cmd with `content.msg.send({ embed })`
       return context.msg.channel.send({ embed: context.embed }).catch(console.error);
     }
 
@@ -36,6 +36,7 @@ bot.on('message', msg => {
 });
 
 bot.on('ready', () => {
+  bot.duels = new Enmap({ provider: new Level({ name: 'duels' }) });
   bot.config = new Enmap({ provider: new Level({ name: 'config' }) });
   bot.outlaws = new Enmap({ provider: new Level({ name: 'outlaws' }) });
 
