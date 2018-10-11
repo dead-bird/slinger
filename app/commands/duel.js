@@ -1,4 +1,5 @@
 const outlaws = require('../modules/outlaws');
+const duels = require('../modules/duels');
 const core = require('../modules/core');
 const { Command } = require('clapp');
 
@@ -26,7 +27,7 @@ module.exports = new Command({
           } challenged you to a duel! Type \`accept\` to begin.`
         )
         .then(() => {
-          waitForAccept(msg, p1, p2);
+          waitForAccept(msg, bot, p1, p2);
           resolve(false);
         })
         .catch(console.error);
@@ -41,13 +42,23 @@ module.exports = new Command({
   ],
 });
 
-function waitForAccept(msg, p1, p2) {
+function waitForAccept(msg, bot, p1, p2) {
   msg.channel
     .awaitMessages(m => m.content === 'accept' && m.author.id === p2.id, {
       max: 1,
       time: 10000,
       errors: ['time'],
     })
-    .then(() => msg.channel.send('player 2 accepted the duel.'))
-    .catch(() => resolve("player 2 didn't accept the fight"));
+    .then(() => fight(msg, p1, p2))
+    .catch(() => console.log("player 2 didn't accept the fight"));
+}
+
+function fight(msg, bot, p1, p2) {
+  const duel = duels.set(bot, {
+    p1: p1.id,
+    p2: p2.id,
+    winner: null,
+  });
+
+  msg.channel.send('player 2 accepted the duel.');
 }
