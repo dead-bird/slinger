@@ -1,17 +1,18 @@
-const self = (module.exports = {
-  // get: (bot, id) => bot.duels.get(id) || self.set(bot, id),
+const triggers = ['draw'];
 
+module.exports = {
   set(bot, duel) {
     if (!duel.id) {
       duel.id = (bot.duels.count || 0) + 1;
     }
 
-    console.log(duel);
-
     // save
+
     return duel;
   },
-});
+
+  trigger: () => triggers[Math.floor(Math.random() * triggers.length)],
+};
 
 // example
 // {
