@@ -17,11 +17,6 @@ module.exports = new Command({
       const p1 = msg.author;
       const p2 = core.user.get(msg.guild, core.user.id(argv.args.user));
 
-      console.log(p1);
-      console.log(p2);
-
-      resolve(false);
-
       if (p2.presence.status !== 'online') {
         resolve(`${argv.args.user} is offline`);
       }
@@ -31,7 +26,7 @@ module.exports = new Command({
       msg.channel
         .send(
           `<@${p2.id}>. ${
-            msg.author.username
+            p1.username
           } challenged you to a duel! Type \`accept\` to begin.`
         )
         .then(() => {
@@ -60,21 +55,26 @@ function waitForAccept(msg, bot, p1, p2) {
 function fight(msg, bot, p1, p2) {
   console.log(duels.trigger());
 
-  // let duel = duels.set(bot, {
-  //   p1,
-  //   p2,
-  //   winner: null,
-  // });
+  const embed = new RichEmbed()
+    .addField(p1.username, 'data stuff', true)
+    .addField(p2.username, 'data stuff', true)
+    .addBlankField();
 
-  // const embed = new RichEmbed();
+  msg.channel.send({ embed }).then(msg => {
+    for (let index = 3; index > 0; index--) {
+      embed.addField(index, '\u200B');
+      msg.edit({ embed });
+    }
+  });
 
-  // embed.addField(p1.username, 'data stuff', true);
-  // embed.addField(p2, 'data stuff', true);
+  p1 = outlaws.get(bot, p1);
+  p2 = outlaws.get(bot, p2);
 
-  // p1 = outlaws.get(bot, p1);
-  // p2 = outlaws.get(bot, p2);
-
-  // msg.channel.send({ embed });
+  let duel = duels.set(bot, {
+    p1: p1.id,
+    p2: p2.id,
+    winner: null,
+  });
 
   // msg.channel
   //   .awaitMessages(m => m.content === 'accept' && m.author.id === p2.id, options)
