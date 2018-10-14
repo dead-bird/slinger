@@ -30,7 +30,11 @@ module.exports = new Command({
           } challenged you to a duel! Type \`accept\` to begin.`
         )
         .then(() => {
-          waitForAccept(msg, bot, p1, p2);
+          msg.channel
+            .awaitMessages(m => m.content === 'accept' && m.author.id === p2.id, options)
+            .then(() => countdown(msg, bot, p1, p2))
+            .catch(err => console.log(err));
+
           resolve(false);
         })
         .catch(console.error);
@@ -45,30 +49,38 @@ module.exports = new Command({
   ],
 });
 
-function waitForAccept(msg, bot, p1, p2) {
-  msg.channel
-    .awaitMessages(m => m.content === 'accept' && m.author.id === p2.id, options)
-    .then(() => fight(msg, bot, p1, p2))
-    .catch(err => console.log(err));
-}
+function countdown(msg, bot, p1, p2) {
+  const trigger = duels.trigger();
 
-function fight(msg, bot, p1, p2) {
-  console.log(duels.trigger());
-
-  const embed = new RichEmbed()
-    .addField(p1.username, 'data stuff', true)
-    .addField(p2.username, 'data stuff', true)
-    .addBlankField();
+  let embed = {
+    fields: [
+      { name: p1.username, value: 'data stuff', inline: true },
+      { name: p2.username, value: 'data stuff', inline: true },
+      { name: 3, value: '\u200B' },
+    ],
+  };
 
   msg.channel.send({ embed }).then(msg => {
-    for (let index = 3; index > 0; index--) {
-      embed.addField(index, '\u200B');
-      msg.edit({ embed });
-    }
-  });
+    let index = 3;
 
-  p1 = outlaws.get(bot, p1);
-  p2 = outlaws.get(bot, p2);
+    const count = setInterval(() => {
+      if (index >= 2) {
+        embed.fields[2].name = --index;
+      } else {
+        embed.fields[2].name = trigger;
+
+        clearInterval(count);
+        duel(msg, bot, p1, p2, trigger);
+      }
+
+      msg.edit({ embed });
+    }, 1000);
+  });
+}
+
+function duel(msg, bot, p1, p2, trigger) {
+  p1 = outlaws.get(bot, p1.id);
+  p2 = outlaws.get(bot, p2.id);
 
   let duel = duels.set(bot, {
     p1: p1.id,
@@ -76,10 +88,8 @@ function fight(msg, bot, p1, p2) {
     winner: null,
   });
 
-  // msg.channel
-  //   .awaitMessages(m => m.content === 'accept' && m.author.id === p2.id, options)
-  //   .then(() => fight(msg, bot, p1, p2))
-  //   .catch(err => console.log(err));
-
-  msg.channel.send('player 2 accepted the duel.');
+  msg.channel
+    .awaitMessages(m => m.content === trigger && m.author.id === p2.id, options)
+    .then(thing => console.log(thing))
+    .catch(err => console.log(err));
 }
